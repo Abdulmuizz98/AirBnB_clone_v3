@@ -24,7 +24,7 @@ def states_get(state_id=None):
                     return make_response(jsonify({'error': 'Missing name'}), 400)
                 new_state = State(**state_dict)
                 new_state.save()
-                return make_response(jsonify(new_state.to_dict()), 201)
+                return jsonify(new_state.to_dict()), 201
     else:
         state = storage.get(State, state_id)
         if state is None:
