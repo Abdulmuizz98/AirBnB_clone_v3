@@ -3,12 +3,12 @@
 
 from flask import jsonify, abort, request
 from models import storage
-from api.v1.views import state_views
+from api.v1.views import app_views
 from models.state import State
 
 
-@state_views.route('/', methods=['GET', 'POST'])
-@state_views.route('/<state_id>', methods=['GET', 'DELETE', 'PUT'])
+@app_views.route('/states', methods=['GET', 'POST'])
+@app_views.route('/states/<state_id>', methods=['GET', 'DELETE', 'PUT'])
 def states(state_id=None):
     """Returns states in storage"""
     if state_id is None:
