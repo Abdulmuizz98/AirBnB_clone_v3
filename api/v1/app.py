@@ -8,7 +8,7 @@ from flask import make_response, jsonify
 from os import getenv
 
 app = Flask(__name__)
-app_views.register_blueprint(state_views)
+#app_views.register_blueprint(state_views)
 app.register_blueprint(app_views)
 
 
@@ -28,8 +28,6 @@ def not_found(error):
 
 
 if __name__ == "__main__":
-    hst = getenv('HBNB_API_HOST')
-    prt = getenv('HBNB_API_PORT')
-    HOST = '0.0.0.0' if not hst else hst
-    PORT = 5000 if not prt else int(prt)
-    app.run(host=HOST, port=PORT, threaded=True)
+    HOSTS = getenv('HBNB_API_HOST', '0.0.0.0')
+    PORTS = getenv('HBNB_API_PORT', '5000')
+    app.run(host=HOSTS, port=int(PORTS), threaded=True)
