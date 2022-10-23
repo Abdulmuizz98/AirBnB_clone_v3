@@ -31,7 +31,7 @@ def states(state_id=None):
             abort(404)
             return
         if request.method == 'GET':
-            return jsonify(state.to_dict())
+            return (jsonify(state.to_dict()))
         if request.method == 'PUT':
             state_dict = request.get_json()
             if state_dict is None:
