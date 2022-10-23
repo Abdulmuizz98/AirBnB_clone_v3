@@ -7,7 +7,7 @@ from api.v1.views import app_views
 from models.state import State
 
 
-@app_views.route('/states', methods=['GET', 'POST'])
+@app_views.route('/states/', methods=['GET', 'POST'])
 @app_views.route('/states/<state_id>', methods=['GET', 'DELETE', 'PUT'])
 def states_get(state_id=None):
     """Returns states in storage"""
