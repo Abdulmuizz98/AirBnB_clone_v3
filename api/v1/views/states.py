@@ -20,7 +20,7 @@ def states_get(state_id=None):
             if not request.get_json():
                 return make_response(jsonify({'error': 'Not a JSON'}), 400)
             else:
-                if (state_dict.get('name', None)) is None:
+                if 'name' not in state_dict:
                     return make_response(jsonify({'error': 'Missing name'}), 400)
                 new_state = State(**state_dict)
                 new_state.save()
