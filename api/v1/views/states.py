@@ -9,7 +9,7 @@ from models.state import State
 
 @app_views.route('/states', methods=['GET', 'POST'])
 @app_views.route('/states/<state_id>', methods=['GET', 'DELETE', 'PUT'])
-def states(state_id=None):
+def states_get(state_id=None):
     """Returns states in storage"""
     if state_id is None:
         if request.method == 'GET':
@@ -18,13 +18,13 @@ def states(state_id=None):
         elif request.method == 'POST':
             state_dict = request.get_json()
             if (state_dict is None):
-                abort(404)
+                return make_response(jsonify({'error': 'Not a JSON'}), 400)
             else:
                 if (state_dict.get('name', None)) is None:
-                    abort(404)
+                    return make_response(jsonify({'error': 'Missing name'}), 400)
                 new_state = State(**state_dict)
                 new_state.save()
-                return jsonify(new_state.to_dict()), 201
+                return make_response(jsonify(new_state.to_dict()), 201)
     else:
         state = storage.get(State, state_id)
         if state is None:
@@ -32,6 +32,10 @@ def states(state_id=None):
             return
         if request.method == 'GET':
             return (jsonify(state.to_dict()))
+        if request.method == 'DELETE':
+            storage.delete(state)
+            storage.save()
+            return (jsonify({}))
         if request.method == 'PUT':
             state_dict = request.get_json()
             if state_dict is None:
