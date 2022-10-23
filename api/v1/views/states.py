@@ -17,11 +17,11 @@ def states_get(state_id=None):
             return jsonify(states_dict)
         elif request.method == 'POST':
             state_dict = request.get_json()
-            if (state_dict is None):
-                return jsonify({'error': 'Not a JSON'}), 400
+            if not request.get_json():
+                return make_response(jsonify({'error': 'Not a JSON'}), 400)
             else:
                 if (state_dict.get('name', None)) is None:
-                    return jsonify({'error': 'Missing name'}, 400)
+                    return make_response(jsonify({'error': 'Missing name'}), 400)
                 new_state = State(**state_dict)
                 new_state.save()
                 return make_response(jsonify(new_state.to_dict())), 201
