@@ -29,7 +29,6 @@ def states_get(state_id=None):
         state = storage.get(State, state_id)
         if state is None:
             abort(404)
-            return
         if request.method == 'GET':
             return (jsonify(state.to_dict()))
         if request.method == 'DELETE':
