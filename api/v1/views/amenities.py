@@ -15,14 +15,15 @@ def amenities_get(amenity_id=None):
     """Returns states in storage"""
     if amenity_id is None:
         if request.method == 'GET':
-            amenities_dict = [v.to_dict() for k, v in storage.all(Amenity).items()]
+            amenities_dict = [v.to_dict()
+                              for k, v in
+                              storage.all(Amenity).items()]
             return jsonify(amenities_dict)
     else:
         amenity = storage.get(Amenity, amenity_id)
         if amenity is None:
             abort(404)
         return jsonify(amenity.to_dict())
-
 
 
 @app_views.route('/amenities/<amenity_id>', methods=['DELETE'],
