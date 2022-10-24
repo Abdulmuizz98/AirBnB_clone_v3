@@ -34,7 +34,7 @@ def states_get(state_id=None):
         if request.method == 'DELETE':
             storage.delete(state)
             storage.save()
-            return (jsonify({}))
+            return (jsonify({}), 200)
         if request.method == 'PUT':
             state_dict = request.get_json()
             if state_dict is None:

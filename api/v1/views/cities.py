@@ -14,11 +14,29 @@ def states_cities(state_id):
     if state is None:
         abort(404)
     cities = storage.all(City)
-    state_cities = {v.to_dict() for k, v in cities.items() if getattr(v, 'state_id') == state_id}
+    state_cities = [v.to_dict() for k, v in cities.items() if getattr(v, 'state_id') == state_id]
     return jsonify(state_cities)
 
+@app_views.route('/cities/<city_id>', methods=['GET'])
+def cities(city_id):
+    city = storage.get(City, city_id)
+    if city is None:
+        abort(404)
+    return jsonify(city.to_dict())
 
+@app_views.route('/cities/<city_id>', methods=['DELETE'])
+def cities_del(city_id):
+    city = storage.get(City, city_id)
+    if city is None:
+        abort(404)
+    storage.delete(city)
+    storage.save()
+    return (jsonify({}), 200)
 
+@app_views.route('/cities/<city_id>', methods=['DELETE'])
+def cities_del(city_id):
+    city_dict = request.get_json()
+    print(city_dict)
 # @app_views.route('/states/', methods=['GET', 'POST'])
 # @app_views.route('/states/<state_id>', methods=['GET', 'DELETE', 'PUT'])
 # def states_get(state_id=None):
