@@ -71,7 +71,8 @@ def places_put(place_id):
         return (jsonify({'error': 'Not a JSON'}), 400)
     else:
         for k, v in place_dict.items():
-            if k not in ['id', 'place_id', 'created_at', 'updated_at']:
+            if k not in ['id', 'user_id', 'city_id',
+                         'created_at', 'updated_at']:
                 setattr(place, k, v)
             place.save()
             return (jsonify(place.to_dict()), 200)
