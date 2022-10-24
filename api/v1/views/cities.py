@@ -33,10 +33,17 @@ def cities_del(city_id):
     storage.save()
     return (jsonify({}), 200)
 
-@app_views.route('/cities/<city_id>', methods=['DELETE'])
-def cities_del(city_id):
-    city_dict = request.get_json()
-    print(city_dict)
+@app_views.route('/states/<state_id>/cities', methods=['POST'])
+def cities_post(city_id):
+    city_dict = request.get_json(silent=True)
+    if city_dict is none:
+        return make_response(jsonify({'error': 'Not a JSON'}), 400)
+    else:
+        if 'name' not in state_dict:
+            return make_response(jsonify({'error': 'Missing name'}), 400)
+        new_city = City(**city_dict)
+        new_city.save()
+        return make_response(jsonify(new_city.to_dict()), 201)
 # @app_views.route('/states/', methods=['GET', 'POST'])
 # @app_views.route('/states/<state_id>', methods=['GET', 'DELETE', 'PUT'])
 # def states_get(state_id=None):
