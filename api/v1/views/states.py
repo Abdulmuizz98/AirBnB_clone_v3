@@ -20,10 +20,10 @@ def states_get(state_id=None):
         elif request.method == 'POST':
             state_dict = request.get_json(silent=True)
             if state_dict is None:
-                return (jsonify({'error': 'Not a JSON'}), 400)
+                return make_response('Not a JSON', 400)
             else:
                 if 'name' not in state_dict:
-                    return (jsonify({'error': 'Missing name'}), 400)
+                    return make_response('Missing name', 400)
                 new_state = State(**state_dict)
                 new_state.save()
                 return (jsonify(new_state.to_dict()), 201)
@@ -40,10 +40,10 @@ def states_get(state_id=None):
         if request.method == 'PUT':
             state_dict = request.get_json(state_dict, silent=True)
             if state_dict is None:
-                return (jsonify({'error': 'Not a JSON'}), 400)
+                return make_response('Not a JSON', 400)
             else:
                 if (state_dict.get('name', None)) is None:
-                    return (jsonify({'error': 'Missing name'}), 400)
+                    return make_response('Missing name', 400)
                 for k, v in state_dict.items():
                     if k not in ['id', 'created_at', 'updated_at']:
                         setattr(state, k, v)
