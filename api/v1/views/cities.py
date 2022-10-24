@@ -36,7 +36,7 @@ def cities_del(city_id):
 @app_views.route('/states/<state_id>/cities', methods=['POST'])
 def cities_post(state_id):
     city_dict = request.get_json(silent=True)
-    if city_dict is none:
+    if city_dict is None:
         return make_response(jsonify({'error': 'Not a JSON'}), 400)
     else:
         if 'name' not in state_dict:
