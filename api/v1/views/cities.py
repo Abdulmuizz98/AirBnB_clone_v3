@@ -34,13 +34,14 @@ def cities_del(city_id):
     return (jsonify({}), 200)
 
 @app_views.route('/states/<state_id>/cities', methods=['POST'])
-def cities_post(city_id):
+def cities_post(state_id):
     city_dict = request.get_json(silent=True)
     if city_dict is none:
         return make_response(jsonify({'error': 'Not a JSON'}), 400)
     else:
         if 'name' not in state_dict:
             return make_response(jsonify({'error': 'Missing name'}), 400)
+        city_dict['state_id'] = state_id
         new_city = City(**city_dict)
         new_city.save()
         return make_response(jsonify(new_city.to_dict()), 201)
