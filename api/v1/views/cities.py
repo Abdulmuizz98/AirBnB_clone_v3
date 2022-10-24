@@ -8,9 +8,9 @@ from models.city import City
 
 
 @app_views.route('/states/<state_id>/cities', methods=['GET'])
-def states_get(state_id):
+def states_cities(state_id):
     cities = storage.all(City)
-    state_cities = {k: v for k, v in cities.items() if v['id'] == state_id}
+    state_cities = {k: v for k, v in cities.items() if v['state_id'] == state_id}
     if len(state_cities) == 0:
         abort(404)
     return jsonify(state_cities)
