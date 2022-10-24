@@ -11,7 +11,7 @@ from models.user import User
                  strict_slashes=False)
 @app_views.route('/amenities/<user_id>', methods=['GET'],
                  strict_slashes=False)
-def amenities_get(user_id=None):
+def users_get(user_id=None):
     """Returns states in storage"""
     if user_id is None:
         if request.method == 'GET':
