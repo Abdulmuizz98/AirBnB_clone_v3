@@ -16,8 +16,8 @@ def users_get(user_id=None):
     if user_id is None:
         if request.method == 'GET':
             users_dict = [v.to_dict()
-                              for k, v in
-                              storage.all(User).items()]
+                          for k, v in
+                          storage.all(User).items()]
             return jsonify(users_dict)
     else:
         user = storage.get(User, user_id)
