@@ -7,20 +7,20 @@ from api.v1.views import app_views
 from models.user import User
 
 
-@app_views.route('/amenities', methods=['GET'],
+@app_views.route('/users', methods=['GET'],
                  strict_slashes=False)
-@app_views.route('/amenities/<user_id>', methods=['GET'],
+@app_views.route('/users/<user_id>', methods=['GET'],
                  strict_slashes=False)
 def users_get(user_id=None):
     """Returns states in storage"""
     if user_id is None:
         if request.method == 'GET':
-            amenities_dict = [v.to_dict()
+            users_dict = [v.to_dict()
                               for k, v in
-                              storage.all(Amenity).items()]
-            return jsonify(amenities_dict)
+                              storage.all(User).items()]
+            return jsonify(users_dict)
     else:
-        user = storage.get(Amenity, user_id)
+        user = storage.get(User, user_id)
         if user is None:
             abort(404)
         return jsonify(user.to_dict())
@@ -44,8 +44,10 @@ def users_post():
     if user_dict is None:
         return (jsonify({'error': 'Not a JSON'}), 400)
     else:
-        if 'name' not in user_dict:
-            return (jsonify({'error': 'Missing name'}), 400)
+        if 'email' not in user_dict:
+            return (jsonify({'error': 'Missing email'}), 400)
+        if 'password' not in user_dict:
+            return (jsonify({'error': 'Missing password'}), 400)
         new_user = User(**user_dict)
         new_user.save()
         return (jsonify(new_user.to_dict()), 201)
@@ -62,7 +64,7 @@ def users_put(user_id):
         return (jsonify({'error': 'Not a JSON'}), 400)
     else:
         for k, v in user_dict.items():
-            if k not in ['id', 'created_at', 'updated_at']:
+            if k not in ['id', 'created_at', 'updated_at', 'email']:
                 setattr(user, k, v)
             user.save()
             return (jsonify(user.to_dict()), 200)
