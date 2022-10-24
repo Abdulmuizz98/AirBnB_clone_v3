@@ -40,10 +40,10 @@ def states_get(state_id=None):
         if request.method == 'PUT':
             state_dict = request.get_json(state_dict, silent=True)
             if state_dict is None:
-                abort(404)
+                return (jsonify({'error': 'Not a JSON'}), 400)
             else:
                 if (state_dict.get('name', None)) is None:
-                    abort(404)
+                    return (jsonify({'error': 'Missing name'}), 400)
                 for k, v in state_dict.items():
                     if k not in ['id', 'created_at', 'updated_at']:
                         setattr(state, k, v)
