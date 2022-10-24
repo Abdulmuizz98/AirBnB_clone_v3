@@ -17,7 +17,7 @@ def cities_places(city_id):
         abort(404)
     places = storage.all(Place)
     city_places = [v.to_dict() for k, v in places.items()
-                    if getattr(v, 'city_id') == city_id]
+                   if getattr(v, 'city_id') == city_id]
     return jsonify(city_places)
 
 
