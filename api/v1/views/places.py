@@ -54,6 +54,10 @@ def places_post(city_id):
             return (jsonify({'error': 'Missing name'}), 400)
         if 'user_id' not in place_dict:
             return (jsonify({'error': 'Missing user_id'}), 400)
+        else:
+            user = storage.get(User, place_dict.get('user_id'))
+            if user is None:
+                abort(404)
         place_dict['city_id'] = city_id
         new_place = Place(**place_dict)
         new_place.save()
