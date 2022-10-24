@@ -38,7 +38,7 @@ def states_get(state_id=None):
             storage.save()
             return (jsonify({}), 200)
         if request.method == 'PUT':
-            state_dict = request.get_json(state_dict, silent=True)
+            state_dict = request.get_json(silent=True)
             if state_dict is None:
                 return (jsonify({'error': 'Not a JSON'}), 400)
             else:
