@@ -17,7 +17,7 @@ def places_rewiew(place_id):
         abort(404)
     reviews = storage.all(Review)
     place_reviews = [v.to_dict() for k, v in reviews.items()
-                   if getattr(v, 'place_id') == place_id]
+                     if getattr(v, 'place_id') == place_id]
     return jsonify(place_reviews)
 
 
