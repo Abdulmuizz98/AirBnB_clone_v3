@@ -51,12 +51,12 @@ def reviews_post(place_id):
     if review_dict is None:
         return (jsonify({'error': 'Not a JSON'}), 400)
     else:
-        if 'text' not in place_dict:
+        if 'text' not in review_dict:
             return (jsonify({'error': 'Missing text'}), 400)
-        if 'user_id' not in place_dict:
+        if 'user_id' not in review_dict:
             return (jsonify({'error': 'Missing user_id'}), 400)
         else:
-            user = storage.get(User, place_dict.get('user_id'))
+            user = storage.get(User, review_dict.get('user_id'))
             if user is None:
                 abort(404)
         review_dict['place_id'] = place_id
