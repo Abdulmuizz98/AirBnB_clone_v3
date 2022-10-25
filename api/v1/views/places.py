@@ -46,6 +46,7 @@ def places_del(place_id):
 def places_post(city_id):
     city = storage.get(City, city_id)
     if city is None:
+        print("I do get here")
         abort(404)
     place_dict = request.get_json(silent=True)
     if place_dict is None:
@@ -81,3 +82,6 @@ def places_put(place_id):
                 setattr(place, k, v)
             place.save()
             return (jsonify(place.to_dict()), 200)
+# 421a55f4-7d82-47d9-b54c-a76916479556
+# 541a55f4-7d82-47d9-b54c-a76916479546
+# b02b7ebe-dd25-4e63-bf94-d5b3c0758dc7
