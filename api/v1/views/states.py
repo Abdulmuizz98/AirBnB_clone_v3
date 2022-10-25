@@ -47,5 +47,5 @@ def states_get(state_id=None):
                 for k, v in state_dict.items():
                     if k not in ['id', 'created_at', 'updated_at']:
                         setattr(state, k, v)
-                    state.save()
+                state.save()
                 return (jsonify(state.to_dict()), 200)

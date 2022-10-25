@@ -64,5 +64,5 @@ def amenities_put(amenity_id):
         for k, v in amenity_dict.items():
             if k not in ['id', 'created_at', 'updated_at']:
                 setattr(amenity, k, v)
-            amenity.save()
-            return (jsonify(amenity.to_dict()), 200)
+        amenity.save()
+        return (jsonify(amenity.to_dict()), 200)

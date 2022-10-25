@@ -79,5 +79,5 @@ def reviews_put(review_id):
             if k not in ['id', 'user_id', 'place_id',
                          'created_at', 'updated_at']:
                 setattr(review, k, v)
-            review.save()
-            return (jsonify(review.to_dict()), 200)
+        review.save()
+        return (jsonify(review.to_dict()), 200)

@@ -66,5 +66,5 @@ def users_put(user_id):
         for k, v in user_dict.items():
             if k not in ['id', 'created_at', 'updated_at', 'email']:
                 setattr(user, k, v)
-            user.save()
-            return (jsonify(user.to_dict()), 200)
+        user.save()
+        return (jsonify(user.to_dict()), 200)

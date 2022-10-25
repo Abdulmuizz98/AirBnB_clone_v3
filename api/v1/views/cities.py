@@ -71,5 +71,5 @@ def cities_put(city_id):
         for k, v in city_dict.items():
             if k not in ['id', 'state_id', 'created_at', 'updated_at']:
                 setattr(city, k, v)
-            city.save()
-            return (jsonify(city.to_dict()), 200)
+        city.save()
+        return (jsonify(city.to_dict()), 200)
