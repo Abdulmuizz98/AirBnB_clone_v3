@@ -46,7 +46,6 @@ def places_del(place_id):
 def places_post(city_id):
     city = storage.get(City, city_id)
     if city is None:
-        print("I do get here")
         abort(404)
     place_dict = request.get_json(silent=True)
     if place_dict is None:
@@ -59,6 +58,7 @@ def places_post(city_id):
         else:
             user = storage.get(User, place_dict.get('user_id'))
             if user is None:
+                print("I do get here")
                 abort(404)
         place_dict['city_id'] = city_id
         new_place = Place(**place_dict)
