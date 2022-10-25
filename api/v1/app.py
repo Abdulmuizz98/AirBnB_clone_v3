@@ -22,7 +22,7 @@ def tear_down(exception):
 @app.errorhandler(404)
 def not_found(error):
     """Not found"""
-    error_json = [{'error': 'Not found'}]
+    error_json = {'error': 'Not found'}
     return make_response(jsonify(error_json), 404)
 
 
