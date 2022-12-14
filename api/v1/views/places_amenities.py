@@ -13,7 +13,7 @@ def place_amenities(place_id):
     place = storage.get(Place, place_id)
     if place is None:
         abort(404)
-    amenities = [v.to_dict() for v in place.amenities()]
+    amenities = [v.to_dict() for v in place.amenities]
     return jsonify(amenities)
 
 @app_views.route('/places/<place_id>/amenities/<amenity_id>', methods=['DELETE'], strict_slashes=False)
@@ -42,7 +42,7 @@ def link_amenity(place_id, amenity_id):
     place = storage.get(Place, place_id)
     if place is None:
         abort(404)
-    amenity = storage.get(Amentiy, amenity_id)
+    amenity = storage.get(Amenity, amenity_id)
     if amenity is None:
         abort(404)
     if storage_t == 'db':
