@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""Model that creates the place_amenities api blueprint """
 from flask import jsonify
 from api.v1.views import app_views
 from models import storage, storage_t
