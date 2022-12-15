@@ -22,7 +22,7 @@ def delete_amenitiy(place_id, amenity_id):
     place = storage.get(Place, place_id)
     if place is None:
         abort(404)
-    amenity = storage.get(Amentiy, amenity_id)
+    amenity = storage.get(Amenity, amenity_id)
     if amenity is None:
         abort(404)
     if storage_t == 'db':
@@ -30,7 +30,7 @@ def delete_amenitiy(place_id, amenity_id):
             abort(404)
         place.amenities.remove(amenity)
     else:
-        if amenity not in place.amenities():
+        if amenity not in place.amenities:
             abort(404)
         place.amenity_ids.remove(amenity.id)
     place.save()
