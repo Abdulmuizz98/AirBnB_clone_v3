@@ -7,7 +7,8 @@ from models.place import Place
 from models.amenity import Amenity
 
 
-@app_views.route('/places/<place_id>/amenities', methods=['GET'], strict_slashes=False)
+@app_views.route('/places/<place_id>/amenities', methods=['GET'],
+                 strict_slashes=False)
 def place_amenities(place_id):
     """"""
     place = storage.get(Place, place_id)
@@ -16,7 +17,9 @@ def place_amenities(place_id):
     amenities = [v.to_dict() for v in place.amenities]
     return jsonify(amenities)
 
-@app_views.route('/places/<place_id>/amenities/<amenity_id>', methods=['DELETE'], strict_slashes=False)
+
+@app_views.route('/places/<place_id>/amenities/<amenity_id>',
+                 methods=['DELETE'], strict_slashes=False)
 def delete_amenitiy(place_id, amenity_id):
     """ """
     place = storage.get(Place, place_id)
@@ -36,7 +39,9 @@ def delete_amenitiy(place_id, amenity_id):
     place.save()
     return (jsonify({}), 200)
 
-@app_views.route('/places/<place_id>/amenities/<amenity_id>', methods=['POST'], strict_slashes=False)
+
+@app_views.route('/places/<place_id>/amenities/<amenity_id>',
+                 methods=['POST'], strict_slashes=False)
 def link_amenity(place_id, amenity_id):
     """ """
     place = storage.get(Place, place_id)
