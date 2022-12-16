@@ -30,7 +30,7 @@ class User(BaseModel, Base):
         if kwargs:
             # first time user creation hash password
             if not kwargs.get("id", None) and kwargs.get("password", None):
-                self._password = hashlib.md5(password.encode())
+                self._password = hashlib.md5(kwargs["password"].encode()).hexdigest()
             if kwargs.get("id", None) and kwargs.get("password", None):
                 self._password = kwargs["password"]
 
@@ -44,4 +44,4 @@ class User(BaseModel, Base):
     @password.setter
     def password(self, passwd):
         """set password"""
-        self._password = hashlib.md5(passwd.encode())
+        self._password = hashlib.md5(passwd.encode()).hexdigest()
