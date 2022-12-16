@@ -32,7 +32,8 @@ class User(BaseModel, Base):
             # cos you also use kwargs to load from storage
             if not kwargs.get("id", None) and kwargs.get("password", None) \
                     and models.storage_t != 'db':
-                kwargs["password"] = hashlib.md5(kwargs["password"].encode()).hexdigest()
+                kwargs["password"] = hashlib.md5(
+                        kwargs["password"].encode()).hexdigest()
             """
             if kwargs.get("id", None) and kwargs.get("password", None):
                 self._password = kwargs["password"]
