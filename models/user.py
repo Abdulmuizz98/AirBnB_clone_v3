@@ -28,8 +28,10 @@ class User(BaseModel, Base):
     def __init__(self, *args, **kwargs):
         """initializes user"""
         if kwargs:
-            # first time user creation hash password
-            if not kwargs.get("id", None) and kwargs.get("password", None):
+            # hash password only the first time using filestorage
+            # cos you also use kwargs to load from storage
+            if not kwargs.get("id", None) and kwargs.get("password", None) \
+                    and models.storage_t != 'db':
                 kwargs["password"] = hashlib.md5(kwargs["password"].encode()).hexdigest()
             """
             if kwargs.get("id", None) and kwargs.get("password", None):
@@ -45,4 +47,7 @@ class User(BaseModel, Base):
     @password.setter
     def password(self, passwd):
         """set password"""
-        self._password = hashlib.md5(passwd.encode()).hexdigest()
+        if models.storage_t == 'db':
+            self._password = hashlib.md5(passwd.encode()).hexdigest()
+        else:
+            self._password = passwd
