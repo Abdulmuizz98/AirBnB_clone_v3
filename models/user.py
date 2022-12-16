@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """ holds class User"""
 import models
+import hashlib
 from models.base_model import BaseModel, Base
 from os import getenv
 import sqlalchemy
@@ -20,10 +21,27 @@ class User(BaseModel, Base):
         reviews = relationship("Review", backref="user")
     else:
         email = ""
-        password = ""
+        # password = ""
         first_name = ""
         last_name = ""
 
     def __init__(self, *args, **kwargs):
         """initializes user"""
+        if kwargs:
+            # first time user creation hash password
+            if not kwargs.get("id", None) and kwargs.get("password", None):
+                self._password = hashlib.md5(password.encode())
+            if kwargs.get("id", None) and kwargs.get("password", None):
+                self._password = kwargs.["password"]
+
         super().__init__(*args, **kwargs)
+
+    @property
+    def password(self):
+        """get password"""
+        return self._password
+
+    @password.setter
+    def password(self, passwd):
+        """set password"""
+        self._password = hashlib.md5(passwd.encode())
