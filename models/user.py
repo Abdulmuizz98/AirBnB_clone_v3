@@ -32,7 +32,7 @@ class User(BaseModel, Base):
             if not kwargs.get("id", None) and kwargs.get("password", None):
                 self._password = hashlib.md5(password.encode())
             if kwargs.get("id", None) and kwargs.get("password", None):
-                self._password = kwargs.["password"]
+                self._password = kwargs["password"]
 
         super().__init__(*args, **kwargs)
 
