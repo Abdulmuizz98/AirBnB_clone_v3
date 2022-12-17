@@ -100,23 +100,23 @@ def places_search():
     places = storage.all(Place)
     cities = storage.all(City)
     # if json body is empty, or each list of all keys are empty, return all place objects
-    if not body_dict.get('States') and not body_dict.get('Cities') \
-            and not body_dict.get('Amenities'):
+    if not body_dict.get('states') and not body_dict.get('cities') \
+            and not body_dict.get('amenities'):
         result = [v.to_dict() for k, v in places.items()]
         return (jsonify(result), 200)
     # if states not empty-> get all city for each state, return all places for each of those cities;
-    if body_dict.get('States'):
-        state_ids = body_dict.get('States')
+    if body_dict.get('states'):
+        state_ids = body_dict.get('states')
         city_ids = [v.id for k, v in cities.items() if city.state_id in state_ids]
     # if cities not empty-> if city not in above state, return all places for each of those cities;
-    if body_dict.get('Cities'):
-        city_ids += body_dict.get('Cities')
+    if body_dict.get('cities'):
+        city_ids += body_dict.get('cities')
         city_ids = list(set(city_ids))
 
     all_places = [v for k, v in places.items() if v.city_id in city_ids]
     # if amenities not empty -> filter result in the above for places that have all amenities attached
-    if body_dict.get('Amenities'):
-        amenities = [storage.get(Amenity, a_id) for a_id in body_dict.get('Amenities')]
+    if body_dict.get('amenities'):
+        amenities = [storage.get(Amenity, a_id) for a_id in body_dict.get('amenities')]
         result = [v.to_dict() for v in all_places if all(am in v.amenities for am in amenities)]
     else:
         result = [v.to_dict() for v in all_places]
