@@ -85,7 +85,7 @@ def places_put(place_id):
         place.save()
         return (jsonify(place.to_dict()), 200)
 
-@app_views.route('/places_search', method=['POST'],
+@app_views.route('/places_search', methods=['POST'],
                  strict_slashes=False)
 def places_search():
     """Search places on fields provided in body """
@@ -98,7 +98,7 @@ def places_search():
         return (jsonify({'error': 'Not a JSON'}), 400)
     # get all place objects and city objects
     places = storage.all(Place)
-    cities = storage.all(Cities)
+    cities = storage.all(City)
     # if json body is empty, or each list of all keys are empty, return all place objects
     if not body_dict.get('States') and not body_dict.get('Cities') \
             and not body_dict.get('Amenities'):
