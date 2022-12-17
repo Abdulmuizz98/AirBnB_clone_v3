@@ -107,7 +107,7 @@ def places_search():
     # if states not empty-> get all city for each state, return all places for each of those cities;
     if body_dict.get('states'):
         state_ids = body_dict.get('states')
-        city_ids = [v.id for k, v in cities.items() if city.state_id in state_ids]
+        city_ids = [v.id for k, v in cities.items() if v.state_id in state_ids]
     # if cities not empty-> if city not in above state, return all places for each of those cities;
     if body_dict.get('cities'):
         city_ids += body_dict.get('cities')
