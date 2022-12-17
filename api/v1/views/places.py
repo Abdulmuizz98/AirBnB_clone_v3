@@ -7,6 +7,8 @@ from api.v1.views import app_views
 from models.city import City
 from models.place import Place
 from models.user import User
+from models.amenity import Amenity
+from models.state import State
 
 
 @app_views.route('/cities/<city_id>/places', methods=['GET'],
@@ -82,3 +84,41 @@ def places_put(place_id):
                 setattr(place, k, v)
         place.save()
         return (jsonify(place.to_dict()), 200)
+
+@app_views.route('/places_search', method=['POST'],
+                 strict_slashes=False)
+def places_search():
+    """Search places on fields provided in body """
+    # get the request body
+    body_dict = request.get_json(silent=True)
+    result = []
+    city_ids = []
+    # if its not valid json raise 400 error with m = Not a JSON
+    if body_dict is None:
+        return (jsonify({'error': 'Not a JSON'}), 400)
+    # get all place objects and city objects
+    places = storage.all(Place)
+    cities = storage.all(Cities)
+    # if json body is empty, or each list of all keys are empty, return all place objects
+    if not body_dict.get('States') and not body_dict.get('Cities') \
+            and not body_dict.get('Amenities'):
+        result = [v.to_dict() for k, v in places.items()]
+        return (jsonify(result), 200)
+    # if states not empty-> get all city for each state, return all places for each of those cities;
+    if body_dict.get('States'):
+        state_ids = body_dict.get('States')
+        city_ids = [v.id for k, v in cities.items() if city.state_id in state_ids]
+    # if cities not empty-> if city not in above state, return all places for each of those cities;
+    if body_dict.get('Cities'):
+        city_ids += body_dict.get('Cities')
+        city_ids = list(set(city_ids))
+
+    all_places = [v for k, v in places.items() if v.city_id in city_ids]
+    # if amenities not empty -> filter result in the above for places that have all amenities attached
+    if body_dict.get('Amenities'):
+        amenities = [storage.get(Amenity, a_id) for a_id in body_dict.get('Amenities')]
+        result = [v.to_dict() for v in all_places if all(am in v.amenities for am in amenities)]
+    else:
+        result = [v.to_dict() for v in all_places]
+    # return the result
+    return (jsonify(result), 200)
